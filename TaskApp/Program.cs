@@ -18,6 +18,7 @@ while (true)
         Console.Clear();
         Console.WriteLine("\n===== MENÚ =====");
         Console.WriteLine("1. Agregar tarea");
+        Console.WriteLine("2. Listar tareas");
         Console.WriteLine("0. Salir");
 
         Console.Write("Opción: ");
@@ -44,6 +45,27 @@ while (true)
 
                 Console.WriteLine("Tarea agregada");
                 Pause(); 
+                break;
+
+            case "2":
+                Console.WriteLine("\n===== LISTAR TAREAS =====");
+
+                var allTasks = service.GetTasks();
+
+                if (!allTasks.Any())
+                {
+                    Console.WriteLine("No hay tareas");
+                }
+                else
+                {
+                    for (int i = 0; i < allTasks.Count; i++)
+                    {
+                        var t = allTasks[i];
+                        Console.WriteLine($"{i}. {t.Title} - {t.Category} - {t.Priority} ({(t.IsCompleted ? "\u221A" : "X")})");
+                    }
+                }
+
+                Pause();
                 break;
 
             case "0":
