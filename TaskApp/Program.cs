@@ -31,7 +31,6 @@ while (true)
 
             default:
                 Console.WriteLine("Opción inválida");
-                Pause();
                 break;
         }
     }
