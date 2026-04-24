@@ -19,6 +19,8 @@ while (true)
         Console.WriteLine("\n===== MENÚ =====");
         Console.WriteLine("1. Agregar tarea");
         Console.WriteLine("2. Listar tareas");
+        Console.WriteLine("3. Filtrar por categoría");
+        Console.WriteLine("4. Filtrar por prioridad");
         Console.WriteLine("0. Salir");
 
         Console.Write("Opción: ");
@@ -67,6 +69,55 @@ while (true)
 
                 Pause();
                 break;
+
+
+            case "3":
+                Console.WriteLine("\n===== FILTRAR POR CATEGORÍA =====");
+
+                Console.Write("Categoría: ");
+                var categoryFilter = Console.ReadLine();
+
+                var tasksByCategory = service.GetByCategory(categoryFilter);
+
+                if (!tasksByCategory.Any())
+                {
+                    Console.WriteLine("No hay tareas con esa categoría");
+                }
+                else
+                {
+                    foreach (var t in tasksByCategory)
+                    {
+                        Console.WriteLine($"{t.Title} - {t.Category} - {t.Priority} ({(t.IsCompleted ? "\u221A" : "X")})");
+                    }
+                }
+
+                Pause();
+                break;
+
+
+            case "4":
+                Console.WriteLine("\n===== FILTRAR POR PRIORIDAD =====");
+
+                Console.Write("Prioridad: ");
+                var priorityFilter = Console.ReadLine();
+
+                var tasksByPriority = service.GetByPriority(priorityFilter);
+
+                if (!tasksByPriority.Any())
+                {
+                    Console.WriteLine("No hay tareas con esa prioridad");
+                }
+                else
+                {
+                    foreach (var t in tasksByPriority)
+                    {
+                        Console.WriteLine($"{t.Title} - {t.Category} - {t.Priority} ({(t.IsCompleted ? "\u221A" : "X")})");
+                    }
+                }
+
+                Pause();
+                break;
+
 
             case "0":
                 return;
