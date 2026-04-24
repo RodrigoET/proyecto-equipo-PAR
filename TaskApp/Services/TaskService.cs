@@ -1,3 +1,4 @@
+using System.Linq;
 using TaskApp.Models;
 
 namespace TaskApp.Services;
@@ -28,5 +29,20 @@ public class TaskService
     public List<TaskItem> GetTasks()
     {
         return tasks;
+    }
+
+
+    public List<TaskItem> GetByCategory(string category)
+    {
+        return tasks
+            .Where(t => t.Category != null && t.Category.Equals(category, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+    }
+
+    public List<TaskItem> GetByPriority(string priority)
+    {
+        return tasks
+            .Where(t => t.Priority != null && t.Priority.Equals(priority, StringComparison.OrdinalIgnoreCase))
+            .ToList();
     }
 }
