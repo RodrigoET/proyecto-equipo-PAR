@@ -1,4 +1,4 @@
-﻿using TaskApp.Services;
+using TaskApp.Services;
 
 var fileService = new FileService();
 var tasks = fileService.Load();
@@ -19,8 +19,10 @@ while (true)
         Console.WriteLine("\n===== MENÚ =====");
         Console.WriteLine("1. Agregar tarea");
         Console.WriteLine("2. Listar tareas");
-        Console.WriteLine("3. Filtrar por categoría");
-        Console.WriteLine("4. Filtrar por prioridad");
+        Console.WriteLine("3. Completar tarea");
+        Console.WriteLine("4. Eliminar tarea");
+        Console.WriteLine("5. Filtrar por categoría");
+        Console.WriteLine("6. Filtrar por prioridad");
         Console.WriteLine("0. Salir");
 
         Console.Write("Opción: ");
@@ -72,6 +74,64 @@ while (true)
 
 
             case "3":
+                Console.WriteLine("\n===== COMPLETAR TAREA =====");
+                var tasksToComplete = service.GetTasks();
+                if (!tasksToComplete.Any())
+                {
+                    Console.WriteLine("No hay tareas para completar");
+                }
+                else
+                {
+                    for (int i = 0; i < tasksToComplete.Count; i++)
+                    {
+                        var t = tasksToComplete[i];
+                        Console.WriteLine($"{i}. {t.Title} ({(t.IsCompleted ? "\u221A" : "X")})");
+                    }
+                    Console.Write("\nÍndice de la tarea a completar: ");
+                    if (int.TryParse(Console.ReadLine(), out int completeIndex))
+                    {
+                        service.CompleteTask(completeIndex);
+                        fileService.Save(service.GetTasks());
+                        Console.WriteLine("Tarea completada");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Índice inválido");
+                    }
+                }
+                Pause();
+                break;
+
+            case "4":
+                Console.WriteLine("\n===== ELIMINAR TAREA =====");
+                var tasksToDelete = service.GetTasks();
+                if (!tasksToDelete.Any())
+                {
+                    Console.WriteLine("No hay tareas para eliminar");
+                }
+                else
+                {
+                    for (int i = 0; i < tasksToDelete.Count; i++)
+                    {
+                        var t = tasksToDelete[i];
+                        Console.WriteLine($"{i}. {t.Title}");
+                    }
+                    Console.Write("\nÍndice de la tarea a eliminar: ");
+                    if (int.TryParse(Console.ReadLine(), out int deleteIndex))
+                    {
+                        service.DeleteTask(deleteIndex);
+                        fileService.Save(service.GetTasks());
+                        Console.WriteLine("Tarea eliminada");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Índice inválido");
+                    }
+                }
+                Pause();
+                break;
+
+            case "5":
                 Console.WriteLine("\n===== FILTRAR POR CATEGORÍA =====");
 
                 Console.Write("Categoría: ");
@@ -95,7 +155,7 @@ while (true)
                 break;
 
 
-            case "4":
+            case "6":
                 Console.WriteLine("\n===== FILTRAR POR PRIORIDAD =====");
 
                 Console.Write("Prioridad: ");

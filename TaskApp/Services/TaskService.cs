@@ -45,4 +45,20 @@ public class TaskService
             .Where(t => t.Priority != null && t.Priority.Equals(priority, StringComparison.OrdinalIgnoreCase))
             .ToList();
     }
+
+    public void CompleteTask(int index)
+    {
+        if (index < 0 || index >= tasks.Count)
+            throw new Exception("Índice de tarea inválido");
+
+        tasks[index].IsCompleted = true;
+    }
+
+    public void DeleteTask(int index)
+    {
+        if (index < 0 || index >= tasks.Count)
+            throw new Exception("Índice de tarea inválido");
+
+        tasks.RemoveAt(index);
+    }
 }
